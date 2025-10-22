@@ -1,0 +1,77 @@
+(.venv) PS D:\GITHUB.COM\Unmanned-Aerial-Vehicle-3D-Radar> git diff
+diff --git a/radar/RadarDevKit/Interfaces/Ethernet/Commands.py b/radar/RadarDevKit/Interfaces/Ethernet/Commands.py
+index f63ff49..82e3843 100644
+--- a/radar/RadarDevKit/Interfaces/Ethernet/Commands.py
++++ b/radar/RadarDevKit/Interfaces/Ethernet/Commands.py
+@@ -97,7 +97,7 @@ class IPCommands(Commands):
+         if SndMsgLen > 0:
+
+             # build payload
+-            msg = ""
++            msg = b""
+             for (item, item_len) in zip(SndpL, SndLenE):
+                 if type(item_len) is str:
+                     msg+=str(item)
+@@ -216,7 +216,7 @@ class IPCommands(Commands):
+             raise EthernetError("Wrong message length (2)")
+         # convert data to int32
+         sub_msg = self.split_message(msg, [4]*nItems)
+-        return map(conv.string_to_int32, sub_msg)
++        return list(map(conv.string_to_int32, sub_msg))
+
+     '''=========================================================================='''
+     def cmd_get_ifc_params(self):
+diff --git a/radar/RadarDevKit/Interfaces/Ethernet/IPConnection.py b/radar/RadarDevKit/Interfaces/Ethernet/IPConnection.py
+index a45e438..1d46374 100644
+--- a/radar/RadarDevKit/Interfaces/Ethernet/IPConnection.py
++++ b/radar/RadarDevKit/Interfaces/Ethernet/IPConnection.py
+@@ -115,7 +115,7 @@ class IPConnection(object):
+     # receive data using Socket connection
+     def receive(self, msg_size):
+
+-        msg = ""
++        msg = b""
+         totalrecv = 0
+
+         try:
+@@ -123,7 +123,7 @@ class IPConnection(object):
+             while totalrecv < msg_size:
+                 req_bytes = min(msg_size-totalrecv, BUFFER_SIZE)    # requested bytes
+                 msg_block = self.sock.recv(req_bytes)
+-                if msg_block == "":
++                if msg_block == b"":
+                     break   # socket connection error
+                 msg = msg + msg_block
+                 totalrecv = len(msg)
+diff --git a/radar/RadarDevKit/Radar_Communication_Example.py b/radar/RadarDevKit/Radar_Communication_Example.py
+index 6ad6adb..151be89 100644
+--- a/radar/RadarDevKit/Radar_Communication_Example.py
++++ b/radar/RadarDevKit/Radar_Communication_Example.py
+@@ -378,7 +378,7 @@ if 1:
+ '''
+ Time domain example
+ '''
+-if 0:
++if 1:
+     if main.connected:
+         # Specify a measurement type, let the Radar perform it and read the data
+         measurement = "UP-Ramp"
+@@ -419,7 +419,7 @@ if 0:
+ '''
+ Frequency domain example
+ '''
+-if 0:
++if 1:
+     if main.connected:
+         # Specify a measurement type, let the Radar perform it and read the data
+         measurement = "UP-Ramp"
+@@ -481,7 +481,7 @@ if 0:
+ '''
+ Air Tracker example
+ '''
+-if 0:
++if 1:
+     # Get the actual Air Tracker parameters
+     main.GetAtParams()
+
+(END)

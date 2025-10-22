@@ -378,7 +378,7 @@ if 1:
 '''
 Time domain example
 '''
-if 0:
+if 1:
     if main.connected:
         # Specify a measurement type, let the Radar perform it and read the data
         measurement = "UP-Ramp"
@@ -419,7 +419,7 @@ if 0:
 '''
 Frequency domain example
 '''
-if 0:
+if 1:
     if main.connected:
         # Specify a measurement type, let the Radar perform it and read the data
         measurement = "UP-Ramp"
@@ -481,7 +481,7 @@ if 0:
 '''
 Air Tracker example
 '''
-if 0:
+if 1:
     # Get the actual Air Tracker parameters
     main.GetAtParams()
 

@@ -115,7 +115,7 @@ class IPConnection(object):
     # receive data using Socket connection         
     def receive(self, msg_size):
         
-        msg = ""
+        msg = b""
         totalrecv = 0
         
         try:
@@ -123,7 +123,7 @@ class IPConnection(object):
             while totalrecv < msg_size:
                 req_bytes = min(msg_size-totalrecv, BUFFER_SIZE)    # requested bytes
                 msg_block = self.sock.recv(req_bytes)
-                if msg_block == "":
+                if msg_block == b"":
                     break   # socket connection error
                 msg = msg + msg_block
                 totalrecv = len(msg)

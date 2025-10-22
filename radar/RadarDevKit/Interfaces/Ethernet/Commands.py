@@ -97,7 +97,7 @@ class IPCommands(Commands):
         if SndMsgLen > 0:
 
             # build payload
-            msg = ""
+            msg = b""
             for (item, item_len) in zip(SndpL, SndLenE):
                 if type(item_len) is str:
                     msg+=str(item)
@@ -216,7 +216,7 @@ class IPCommands(Commands):
             raise EthernetError("Wrong message length (2)")
         # convert data to int32
         sub_msg = self.split_message(msg, [4]*nItems)
-        return map(conv.string_to_int32, sub_msg)
+        return list(map(conv.string_to_int32, sub_msg))
                 
     '''=========================================================================='''
     def cmd_get_ifc_params(self):

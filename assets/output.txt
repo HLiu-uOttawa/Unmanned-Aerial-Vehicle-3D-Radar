@@ -1,0 +1,256 @@
+(.venv) PS D:\GITHUB.COM\Unmanned-Aerial-Vehicle-3D-Radar\radar\RadarDevKit> python3 .\Radar_Communication_Example.py
+Number of the connected Radar Module:  2000000109
+Frequency [MHz]:  24008
+Bandwidth [MHz]:  234
+Ramp-time [ms]:  1
+
+Frequency [MHz]:  24008
+Bandwidth [MHz]:  234
+Ramp-time [ms]:  1
+
+Radar Module is performing 50 initial measurements.
+Please wait for 1.50 seconds.
+
+Finished Air Tracker measurement No.: 1
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -1.72 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -10.89 deg
+Azi. Angle: 0.00 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: 0.00 deg
+Azi. Angle: 14.90 deg
+==========================================
+Finished Air Tracker measurement No.: 2
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.15 deg
+Azi. Angle: -1.72 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -9.74 deg
+Azi. Angle: -0.57 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: -6.30 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 3
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -1.72 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -12.61 deg
+Azi. Angle: 0.00 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: 0.00 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 4
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -1.72 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -10.89 deg
+Azi. Angle: 0.00 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: 0.57 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 5
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -1.72 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -9.17 deg
+Azi. Angle: -0.57 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: -5.16 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 6
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -2.29 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -10.89 deg
+Azi. Angle: -0.57 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: -2.86 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 7
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -2.29 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -8.59 deg
+Azi. Angle: -0.57 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: 0.57 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 8
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -2.29 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -9.17 deg
+Azi. Angle: 0.00 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: -0.57 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 9
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -1.72 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -9.74 deg
+Azi. Angle: -0.57 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: 2.86 deg
+Azi. Angle: 14.32 deg
+==========================================
+Finished Air Tracker measurement No.: 10
+Number of targets found: 3
+-------------------
+Target ID: 0
+Target RCS: 1.00 dBm
+Distance: 0.600 m
+Speed: 0.000 m/s
+Ele. Angle: 1.72 deg
+Azi. Angle: -1.72 deg
+-------------------
+Target ID: 1
+Target RCS: -7.00 dBm
+Distance: 3.600 m
+Speed: 0.000 m/s
+Ele. Angle: -10.31 deg
+Azi. Angle: 0.00 deg
+-------------------
+Target ID: 2
+Target RCS: -11.00 dBm
+Distance: 10.000 m
+Speed: 0.000 m/s
+Ele. Angle: -1.72 deg
+Azi. Angle: 14.90 deg
+==========================================
+Disconnected.
+End.
+(.venv) PS D:\GITHUB.COM\Unmanned-Aerial-Vehicle-3D-Radar\radar\RadarDevKit> 
