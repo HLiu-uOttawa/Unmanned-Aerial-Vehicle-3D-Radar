@@ -35,7 +35,18 @@ A **ROS 2–based 3D-Radar system** for [3D radar: DK-sR-14MPc](https://radar-se
 - **CUDA:** NVIDIA CUDA (on Jetson/desktop GPU)  
 - Optional tools: **Foxglove Studio**, **RViz2**
 
+
 > If you use a fresh machine, make sure ROS 2 is installed and sourced before building.
+
+--- 
+
+## Setup
+sudo apt install python3.10-venv
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install matplotlib
+
+./radar/RadarDevKit$ python3 Radar_Communication_Example.py
 
 ---
 
