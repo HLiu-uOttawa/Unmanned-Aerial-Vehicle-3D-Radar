@@ -4,7 +4,7 @@
   <name>sr14ros2pkg</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="user@todo.todo">user</maintainer>
+  <maintainer email="Brian.Liu@uottawa.ca">user</maintainer>
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>

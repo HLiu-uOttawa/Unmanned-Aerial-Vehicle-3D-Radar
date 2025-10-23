@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'radar_node = sr14ros2pkg.frame_from_radar_node:main',
         ],
     },
 )
