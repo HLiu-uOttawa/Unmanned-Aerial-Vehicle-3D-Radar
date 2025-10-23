@@ -171,3 +171,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# ignore these folders for ROS2
+build
+install
+log
+
