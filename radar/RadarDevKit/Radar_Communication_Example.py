@@ -21,13 +21,13 @@ In the lower part it is shown how to handle this class in some examples.
 Imports
 '''
 # Main classes for the CAN Bus interface
-from Interfaces.CAN.CanConfig import CanParams
+# from Interfaces.CAN.CanConfig import CanParams
 # from Interfaces.CAN.USB_CAN import USB_CAN_Fkt as can
 # from Interfaces.CAN.Commands import CanCommands
 
 # Main classes for the SPI Bus interface
 # from Interfaces.SPI.SPI_Interface import SPI_Interface
-from Interfaces.SPI.Commands import SPI_Commands
+# from Interfaces.SPI.Commands import SPI_Commands
 
 # Main classes for the Ethernet interface
 from Interfaces.Ethernet.EthernetConfig import EthernetParams
@@ -66,9 +66,9 @@ class Main():
 
         ### interface specific parameters ###
         # load the CAN parameters and change them
-        self.canParams = CanParams()
-        self.canParams.Node = 1
-        self.canParams.Baud = 1000
+        # self.canParams = CanParams()
+        # self.canParams.Node = 1
+        # self.canParams.Baud = 1000
 
         # load the Ethernet parameters and change them
         self.etherParams = EthernetParams()
