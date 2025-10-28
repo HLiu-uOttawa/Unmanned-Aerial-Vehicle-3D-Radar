@@ -45,7 +45,7 @@ class Handler(SocketServer.DatagramRequestHandler):
         #           radar number (2 bytes)
         if len(recv_dgram) < 6:
             return
-        if (conv.string_to_u16(recv_dgram[0:2]) <> MAGIC_NR):
+        if (conv.string_to_u16(recv_dgram[0:2]) != MAGIC_NR):
             return
 
         # extract radar number
