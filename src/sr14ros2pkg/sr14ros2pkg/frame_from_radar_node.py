@@ -5,7 +5,7 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray, String, Header
 from interfaces.msg import Sr14TdFrame
 
-import os
+
 import numpy as np
 import pandas as pd
 
@@ -23,9 +23,9 @@ class RadarNode(Node):
         self.declare_parameter('publish_rate', 10.0)  # Hz
 
         # Publishers
-        self.pub_td_data = self.create_publisher(Sr14TdFrame, 'radar/td_data', 10)
-        self.pub_fd_data = self.create_publisher(Float32MultiArray, 'radar/fd_data', 10)
-        self.pub_tracker = self.create_publisher(String, 'radar/tracker', 10)
+        self.pub_td_data = self.create_publisher(Sr14TdFrame, 'sr14/td_data', 10)
+        self.pub_fd_data = self.create_publisher(Float32MultiArray, 'sr14/fd_data', 10)
+        self.pub_tracker = self.create_publisher(String, 'sr14/tracker', 10)
 
         # Create radar instance
         self.radar = ImstRadarModule()

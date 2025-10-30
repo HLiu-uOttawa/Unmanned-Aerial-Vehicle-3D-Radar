@@ -3,18 +3,36 @@
 import rclpy
 from rclpy.node import Node
 from interfaces.msg import Sr14TdFrame
-from std_msgs.msg import Header
+
+import os
 from datetime import datetime
 
 class RadarFrameSaver(Node):
     def __init__(self):
         super().__init__('radar_frame_save_node')
 
-        ...
-        self.get_logger().info('RadarFrameSaver started. Listening to /sr14/td_frame')
+        self.subscription = self.create_subscription(
+                    Sr14TdFrame,              # Type of the message
+                    '/sr14/td_data',          # Topic name
+                    self.listener_callback,   # Callback function
+                    10                        # QoS
+                )
+        self.get_logger().info('RadarFrameSaver started, listening on /sr14/td_data')
 
     def listener_callback(self, msg: Sr14TdFrame):
-        ...
+        stamp = msg.header.stamp
+
+        len_ch1 = len(msg.ch1)
+        len_ch2 = len(msg.ch2)
+        len_ch3 = len(msg.ch3)
+        len_ch4 = len(msg.ch4)
+
+        self.get_logger().info(
+                    f"Received radar frame at {stamp.sec}.{stamp.nanosec:09d} "
+                    f"| len(ch1–4): {len_ch1}, {len_ch2}, {len_ch3}, {len_ch4}"
+                )
+        
+        self.get_logger().info(f"ch1 head: {msg.ch1[:5]}")
 
     def save_to_txt_file(td_data, folder_location: str, timestamp: datetime = None):
         """
