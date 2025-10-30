@@ -2,51 +2,16 @@
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float32MultiArray, String
+from std_msgs.msg import Float32MultiArray, String, Header
+from interfaces.msg import Sr14TdFrame
+
 import os
 import numpy as np
 import pandas as pd
-from datetime import datetime
 
 from sr14ros2pkg.radar_sdk.RadarModule import ImstRadarModule
 # from sr14ros2pkg.TDData import TDData
 # from sr14ros2pkg.msg import TDFrame
-
-
-def print_data_to_file(td_data, folder_location: str, timestamp: datetime = None):
-    """
-    Save one frame of TD data to a .txt file with timestamp in the name.
-
-    Args:
-        td_data (np.ndarray): The radar TD data (e.g., shape (1024, 4)).
-        folder_location (str, optional): Directory to save file. Defaults to './data'.
-        timestamp (datetime, optional): Timestamp for this frame. Defaults to current time.
-    """
-    if folder_location is None:
-        folder_location = "./data"
-    if timestamp is None:
-        timestamp = datetime.now()
-    os.makedirs(folder_location, exist_ok=True)
-
-    timestamp_str = timestamp.strftime('%Y-%m-%d_%H-%M-%S.%f')[:-3]
-    file_name = f"TD_{timestamp_str}.txt"
-    file_path = os.path.join(folder_location, file_name)
-    
-    # Create a pandas DataFrame
-    df = pd.DataFrame(td_data, columns=["I1", "Q1", "I2", "Q2"])
-
-    # Create a header for the file
-    header = (
-        "Unit of the Time Domain Samples:\t[V]\n"
-        "=======================================================\n"
-        "<I1>\t<Q1>\t<I2>\t<Q2>\n\n"
-    )
-
-    # Write header and DataFrame to a .txt file
-    with open(file_path, "w") as file:
-        file.write(header)  # Write the header to the file
-        # Use to_csv with tab separator and no index or header, float formatted to four decimals
-        df.to_csv(file, sep='\t', index=False, header=False, float_format="%.4f")
         
 class RadarNode(Node):
     def __init__(self):
@@ -58,7 +23,7 @@ class RadarNode(Node):
         self.declare_parameter('publish_rate', 10.0)  # Hz
 
         # Publishers
-        self.pub_td_data = self.create_publisher(Float32MultiArray, 'radar/td_data', 10)
+        self.pub_td_data = self.create_publisher(Sr14TdFrame, 'radar/td_data', 10)
         self.pub_fd_data = self.create_publisher(Float32MultiArray, 'radar/fd_data', 10)
         self.pub_tracker = self.create_publisher(String, 'radar/tracker', 10)
 
@@ -82,9 +47,8 @@ class RadarNode(Node):
 
     def timer_callback(self):
         try:
-            # --- TD Data ---
+            # ------ TD Data ------
             self.radar.GetTdData("UP-Ramp")
-            td_msg = Float32MultiArray()
 
             time = pd.Timestamp.now()
             n_samples = 1024
@@ -105,28 +69,26 @@ class RadarNode(Node):
             # Covert from amplitude to the voltage values, per the manual's calculation
             td_data_voltage = (3 * td_data_amplitude) / ((2.**12) * 4 * self.radar.sysParams.t_ramp)
 
+            td_msg = Sr14TdFrame()
+            td_msg.header = Header()
+            td_msg.header.stamp = self.get_clock().now().to_msg()
+            td_msg.header.frame_id = "radar_sr14"
 
-            print_data_to_file(td_data=td_data_voltage.T, folder_location='./data', timestamp=datetime.now())
+            # Shape of td_data_voltage: (4, 1024)
+            td_msg.ch1 = td_data_voltage[0].tolist()
+            td_msg.ch2 = td_data_voltage[1].tolist()
+            td_msg.ch3 = td_data_voltage[2].tolist()
+            td_msg.ch4 = td_data_voltage[3].tolist()
 
-            # td_msg.data = td_data_voltage.T
-            # td_msg.time = pd.Timestamp.now()
-      
+            self.pub_td_data.publish(td_msg)
 
-
-
-            
-            # self.get_logger().info(f"TD msg size: {len(td_msg.data)}")
-
-
-            # self.pub_td_data.publish(td_msg)
-
-            # --- FD Data ---
+            # --------- FD Data ---------
             self.radar.GetFdData("UP-Ramp")
             fd_msg = Float32MultiArray()
             fd_msg.data = [float(x) for x in self.radar.FD_Data.data]
             self.pub_fd_data.publish(fd_msg)
 
-            # --- Tracker Results ---
+            # --------- Tracker Results ---------
             self.radar.AtMeasurement()
             text = f"{self.radar.AT_Targets.nTargets} targets detected."
             for i in range(self.radar.AT_Targets.nTargets):
