@@ -6,6 +6,8 @@ from interfaces.msg import Sr14TdFrame
 
 import os
 from datetime import datetime
+import numpy as np
+import pandas as pd
 
 class RadarFrameSaver(Node):
     def __init__(self):
@@ -34,43 +36,99 @@ class RadarFrameSaver(Node):
         
         self.get_logger().info(f"ch1 head: {msg.ch1[:5]}")
 
-    def save_to_txt_file(td_data, folder_location: str, timestamp: datetime = None):
-        """
-        Save one frame of TD data to a .txt file with timestamp in the name.
+        # 1) Assemble a 2D array with shape (N, 4)
+        td_data = self._assemble_td_numpy(msg)
+        if td_data is None:
+            # Logs are printed in _assemble_td_numpy()
+            return
+    
+        # 2) header.stamp -> datetime (for filename)
+        ts = self._stamp_to_datetime(stamp)
 
-        Args:
-            td_data (np.ndarray): The radar TD data (e.g., shape (1024, 4)).
-            folder_location (str, optional): Directory to save file. Defaults to './data'.
-            timestamp (datetime, optional): Timestamp for this frame. Defaults to current time.
+        # 3) save to TXT file
+        save_dir = self.get_parameter('save_dir').get_parameter_value().string_value
+        try:
+            self.save_to_txt_file(td_data, save_dir, ts)
+        except Exception as e:
+            self.get_logger().error(f"Failed to save TXT: {e}")
+
+        # Call this function here if saving as BIN is needed.
+
+        # try:
+        #     self.save_to_bin_file(td_data, save_dir, ts)
+        # except Exception as e:
+        #     self.get_logger().error(f"Failed to save BIN: {e}")
+
+    def _assemble_td_numpy(self, msg: Sr14TdFrame):
+        """Combine the four channels into a NumPy array of shape (N, 4) and perform a length consistency check."""
+        ch1, ch2, ch3, ch4 = list(msg.ch1), list(msg.ch2), list(msg.ch3), list(msg.ch4)
+        lengths = [len(ch1), len(ch2), len(ch3), len(ch4)]
+        if min(lengths) == 0:
+            self.get_logger().warn("One or more channels are empty; skip saving.")
+            return None
+        if len(set(lengths)) != 1:
+            self.get_logger().error(f"Channel lengths mismatch: {lengths}; skip saving.")
+            return None
+        try:
+            td = np.column_stack([ch1, ch2, ch3, ch4]).astype(np.float32, copy=False)
+            return td
+        except Exception as e:
+            self.get_logger().error(f"Failed to stack channels into numpy array: {e}")
+            return None
+
+    def _stamp_to_datetime(self, stamp) -> datetime:
+            """Convert builtin_interfaces/Time to a Python datetime (local timezone)."""
+            # ROS time consists of epoch seconds plus nanoseconds; convert to UTC first, then to local time.
+            dt = datetime.fromtimestamp(stamp.sec + stamp.nanosec * 1e-9, tz=timezone.utc).astimezone()
+            return dt
+
+    def save_to_txt_file(self, td_data: np.ndarray, folder_location: str, timestamp: datetime = None):
         """
-        if folder_location is None:
+        Save one frame of TD data to a .txt file (columns represent 4 channels, rows represent sampling points).
+        td_data: (N, 4) float32
+        """
+        if not folder_location:
             folder_location = "./data"
-        if timestamp is None:
-            timestamp = datetime.now()
         os.makedirs(folder_location, exist_ok=True)
+
+        if timestamp is None:
+            timestamp = datetime.now().astimezone()
 
         timestamp_str = timestamp.strftime('%Y-%m-%d_%H-%M-%S.%f')[:-3]
         file_name = f"TD_{timestamp_str}.txt"
         file_path = os.path.join(folder_location, file_name)
-        
-        # Create a pandas DataFrame
-        df = pd.DataFrame(td_data, columns=["I1", "Q1", "I2", "Q2"])
 
-        # Create a header for the file
-        header = (
+        header_str = (
             "Unit of the Time Domain Samples:\t[V]\n"
             "=======================================================\n"
-            "<I1>\t<Q1>\t<I2>\t<Q2>\n\n"
+            "<CH1>\t<CH2>\t<CH3>\t<CH4>\n\n"
         )
 
-        # Write header and DataFrame to a .txt file
-        with open(file_path, "w") as file:
-            file.write(header)  # Write the header to the file
-            # Use to_csv with tab separator and no index or header, float formatted to four decimals
-            df.to_csv(file, sep='\t', index=False, header=False, float_format="%.4f")
+        # Use pandas to write as a tab-separated file.
+        df = pd.DataFrame(td_data, columns=["CH1", "CH2", "CH3", "CH4"])
+        with open(file_path, "w") as f:
+            f.write(header_str)
+            df.to_csv(f, sep='\t', index=False, header=False, float_format="%.4f")
 
-    def save_to_bin_file(td_data, folder_location: str, timestamp: datetime = None):
-        ...
+        self.get_logger().info(f"Saved TD frame to: {file_path}")
+
+    def save_to_bin_file(self, td_data: np.ndarray, folder_location: str, timestamp: datetime = None):
+        """
+        Optional: Save as binary (float32, stored row-wise as CH1..CH4 in sequence).
+        """
+        if not folder_location:
+            folder_location = "./data"
+        os.makedirs(folder_location, exist_ok=True)
+
+        if timestamp is None:
+            timestamp = datetime.now().astimezone()
+
+        timestamp_str = timestamp.strftime('%Y-%m-%d_%H-%M-%S.%f')[:-3]
+        file_name = f"TD_{timestamp_str}.bin"
+        file_path = os.path.join(folder_location, file_name)
+
+        td_data.astype(np.float32, copy=False).tofile(file_path)
+        self.get_logger().info(f"Saved TD frame (binary float32) to: {file_path}")
 
 def main(args=None):
     rclpy.init(args=args)
