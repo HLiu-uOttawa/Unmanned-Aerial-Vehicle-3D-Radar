@@ -43,9 +43,18 @@ A **ROS 2–based 3D-Radar system** for [3D radar: DK-sR-14MPc](https://radar-se
 ## Setup
 ```
 sudo apt install python3.10-venv  
-python3 -m venv .venv  
-source .venv/bin/activate  
-pip3 install matplotlib  
+  
+# 1)
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 2)
+pip uninstall -y numpy matplotlib
+
+# 3) 
+pip install "numpy==1.26.4" "matplotlib==3.7.5"
+
+
 ```
 ```
 ./radar/RadarDevKit$ python3 Radar_Communication_Example.py

@@ -5,7 +5,7 @@ from rclpy.node import Node
 from interfaces.msg import Sr14TdFrame
 
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
@@ -13,6 +13,8 @@ class RadarFrameSaver(Node):
     def __init__(self):
         super().__init__('radar_frame_save_node')
 
+        self.declare_parameter('save_dir', './data')
+        
         self.subscription = self.create_subscription(
                     Sr14TdFrame,              # Type of the message
                     '/sr14/td_data',          # Topic name
@@ -46,7 +48,9 @@ class RadarFrameSaver(Node):
         ts = self._stamp_to_datetime(stamp)
 
         # 3) save to TXT file
-        save_dir = self.get_parameter('save_dir').get_parameter_value().string_value
+        # save_dir = self.get_parameter('save_dir').get_parameter_value().string_value
+        save_dir = self.get_parameter('save_dir').value or './data'
+
         try:
             self.save_to_txt_file(td_data, save_dir, ts)
         except Exception as e:
